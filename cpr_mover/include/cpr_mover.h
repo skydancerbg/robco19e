@@ -137,6 +137,8 @@ class cpr_mover{
 		~cpr_mover();
 		void init();
 		void mainLoop();
+		void notifyStop();
+		bool stopRequested();
 
 		
 		

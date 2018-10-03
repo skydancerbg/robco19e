@@ -71,6 +71,7 @@ double gripperJointMax = 35.0 * 3.14159 / 180.0;	// Opening width
 double deg2rad = 3.14159 / 180.0;
 double rad2deg = 180.0 / 3.14159;
 
+cpr_robots::cpr_mover* robotPtr = NULL;
 
 //**************************************************************
 // print the points in the target list
@@ -129,15 +130,14 @@ void executeGripper(const control_msgs::GripperCommandGoalConstPtr & goal, Gripp
 	}
 	as->setSucceeded();
 }
+void quit(int sig)
+{
+  ROS_INFO("Stop signal received.1");
+  robotPtr->notifyStop();
+}
 
 
 //****************************************************
-void quit(int sig)
-{
-  ros::shutdown();
-  exit(0);
-}
-
 
 
 //******************** MAIN ************************************************
@@ -147,25 +147,51 @@ int main(int argc, char** argv)
 	ros::NodeHandle n2;
 
 	//Start the ActionServer for JointTrajectoryActions and GripperCommandActions from MoveIT
-	TrajectoryServer tserver(n2, "cpr_mover/follow_joint_trajectory", boost::bind(&executeTrajectory, _1, &tserver), false);
+	TrajectoryServer tserver(n2, "mover4_arm/follow_joint_trajectory", boost::bind(&executeTrajectory, _1, &tserver), false);
   	ROS_INFO("TrajectoryActionServer: Starting");
   	tserver.start();
-	GripperServer gserver(n2, "cpr_mover/gripper_command", boost::bind(&executeGripper, _1, &gserver), false);
+	GripperServer gserver(n2, "mover4_gripper/gripper_command", boost::bind(&executeGripper, _1, &gserver), false);
  	ROS_INFO("GripperActionServer: Starting");
  	gserver.start();
 
 	// Start the robot
 	cpr_robots::cpr_mover robot;
+	robotPtr = &robot;
+	auto x = signal(SIGINT,quit);	
+	if (x == SIG_ERR)
+		ROS_INFO("Could not subscribe to SIGINT.");
+	else
+		ROS_INFO("Subscribed to SIGINT.");
+
+
 	robot.init();	
 	robot.mainLoop();		//spinning is done inside the main loop			
+	//signal(SIGINT,quit);	
+	if (robot.stopRequested())
+	{
+		ROS_INFO("Shutting down ros...");
+		ros::shutdown();
+		ROS_INFO("Done.");
+	}
 
-  	signal(SIGINT,quit);	
+  	
 	return(0);
 }
 
 
 
+
 namespace cpr_robots{
+
+	bool cpr_mover::stopRequested()
+	{
+		return this->flag_stop_requested;
+	}
+
+	void cpr_mover::notifyStop()
+	{
+		this->flag_stop_requested = true;
+	}
 	
 
 	//*************************************************************************************
@@ -182,7 +208,6 @@ namespace cpr_robots{
 		if (n.getParam("/robot_type", global_name)){
 			ROS_INFO("%s", global_name.c_str());
 			global_name = "mover4";
-			
 			if(global_name == "mover4"){
 				flagMover4 = true;
 				flagMover6 = false;
@@ -193,6 +218,7 @@ namespace cpr_robots{
 				flagMover4 = true;
 				flagMover6 = false;
 			}
+			
 		}else{
 			ROS_INFO("no robot name found");
 		}
