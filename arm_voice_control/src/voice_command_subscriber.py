@@ -12,7 +12,13 @@ from std_msgs.msg import String
 def callback(data):
     rospy.loginfo(rospy.get_caller_id() + "Voice command received:  %s", data.data)
     if data.data >="Plan1":
-        start_node_direct()
+        start_node_direct('reach_up_pose_execute.py')
+        # wait for the previous movement to end
+        rospy.sleep(12)
+        start_node_direct('place_on_table_execute.py')
+        # wait for the previous movement to end
+        rospy.sleep(22)
+        start_node_direct('release_bottle_on_table_execute.py')
 
     # package = 'mover4_moveit_config'
     # executable = 'mover4_named_position_replay.py'
@@ -26,12 +32,13 @@ def callback(data):
     # executable = 'mover4_named_position_replay.py'
     # node_name = 'mover4_move_group_python_interface'
 
-def start_node_direct():
+def start_node_direct(nn):
     """
     Does work as well from service/topic callbacks directly using rosrun
     """    
     package = 'mover4_moveit_config'
-    node_name = 'mover4_named_position_replay.py'
+    # node_name = 'mover4_named_position_replay.py'
+    node_name = nn
 
     command = "rosrun {0} {1}".format(package, node_name)
 

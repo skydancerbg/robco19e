@@ -110,8 +110,9 @@ void executeTrajectory(const control_msgs::FollowJointTrajectoryGoalConstPtr& go
   }
   ROS_INFO("Trajectory with %d positions received \n", nrOfPoints);
   printTargetPointList();
-
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   as->setSucceeded();
+
 }
 
 //***************************************************************************
