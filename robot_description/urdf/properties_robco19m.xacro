@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="properties1">
+
+<!-- Properties file for Robco19M robot -->
+<!-- Created by Stefan -->
+<!-- Service Robotics Group Bulgaria - Version 1.0 from Oct. 1th, 2018. -->
+
+
+<!-- ####### generic constants ##### -->
+  <!--All units in m-kg-s-radians unit system -->
+  <xacro:property name="M_PI" value="3.14159265358979323846264338327950288419716" />
+  <!--<xacro:property name="M_PI" value="3.1415926535897931" />-->
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="DEGREES_90" value="1.570796327" />
+  <xacro:property name="DEG_TO_RAD" value="0.017453293" />
+  <xacro:property name="SCALE_in_m" value="0.0254"/> <!--inches to meters-->
+  <xacro:property name="SCALE_mm_m" value="0.001"/> <!--milimeters to meters-->
+  <xacro:property name="kgcm_to_nm" value="0.0980665" />
+   <!-- robot constants -->
+
+
+ 
+<!-- Base deck box (imaginery box covering/including front and rear boxes
+    and the axle between them)   -->
+
+  <xacro:property name="base_height" value="0.054" /> <!--Z-->
+  <xacro:property name="base_lenght" value="0.39" />  <!--X-->
+  <xacro:property name="base_width" value="0.218" />  <!--Y-->
+  <xacro:property name="base_Z_middle" value="${base_height/2}" />
+  <xacro:property name="base_X_middle" value="${base_lenght/2}" />  
+  <xacro:property name="base_Y_middle" value="${base_width/2}" />
+  <xacro:property name="base_top_from_base_frame_Z_offset" value="${78*SCALE_mm_m}"/> <!-- distance between the robot origin and the top of the base deck box along the z axis (robot up)-->
+  <xacro:property name="base_Z_offset" value="${base_top_from_base_frame_Z_offset - base_Z_middle}" />
+  <xacro:property name="base_top_Z_offset" value="${base_top_from_base_frame_Z_offset}" />
+
+<!--Mecanum wheel-->
+  <xacro:property name="wheel_diameter" value="0.1" />
+  <xacro:property name="wheel_radius" value="${wheel_diameter/2}" />
+  <xacro:property name="wheel_width" value="0.05" />  
+
+  <xacro:property name="base_to_wheel_mount_shell_diameter" value="0.015" />
+  <xacro:property name="base_to_wheel_mount_shell_lenght" value="0.018" />
+
+  <xacro:property name="front_rear_wheel_distance" value="0.31" /> <!--front_wheel_to_rear_wheel_axle_distance-->
+
+  <!--measured to the middle of the wheel width-->
+  <xacro:property name="wheel_mount_point_Y_offset" value="${base_Y_middle + base_to_wheel_mount_shell_lenght + (wheel_width/2)}" /> 
+  <!--measured to the middle of the wheel diameter-->
+  <xacro:property name="wheel_mount_point_X_offset" value="${front_rear_wheel_distance/2}" />
+  <xacro:property name="wheel_mount_point_Z_offset" value="${base_Z_offset}" />
+
+
+
+<!-- Total mobile base weight 4.2 kg weight, wheel weight 0.400 kg each, mobile base weight without wheels 2.6 kg -->
+
+   
+  <xacro:property name="mobile_base_mass" value="4.2" />
+  <xacro:property name="wheel_mass" value="0.4" />  
+  <xacro:property name="base_mass" value="${mobile_base_mass-4.0*wheel_mass}" /> <!-- in kg weight with battery & electronics inside -->
+
+
+
+
+
+</robot>

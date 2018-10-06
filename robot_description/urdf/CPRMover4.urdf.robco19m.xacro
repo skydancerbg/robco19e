@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="CPRMover4">
+
+<!-- URDF file for the Commonplace Robotics Mover4 robot arm -->
+<!-- BAsed on the official Commonplace Robotics Version 1.1 of the file from Oct. 04th, 2016. -->
+<!-- Modified arm URDF to include a joint, which links the top plate of Robco19M (linorobot) to the base plate of the CPRMover4 arm:-->
+<!-- Version 2.0.1 from Sep. 10th, 2018. -->
+
+<!-- New -->
+<!--<joint name="JointToMountOnMobileBase" type="fixed">
+    <parent link="perception_deck"/> 
+    <child link="arm_base_link"/>
+    <origin xyz="${M_SCALE*0} ${M_SCALE*0} ${M_SCALE*0}" rpy="${0} ${0} ${0}" />
+  </joint>-->
+<!-- End new -->
+<xacro:macro name="CPRMover4">
+  <link name="arm_base_link">
+    <visual>
+	<!--<origin rpy="0 0 0" xyz="0 0 0.0"/>-->
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint0.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint0Coll.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+ <link name="geoJoint1">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint1.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint1Coll.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+ <link name="geoJoint2">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint2.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint2Coll.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+ <link name="geoJoint3">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint3.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint3Coll.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+ <link name="geoJoint4">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint4.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint4Coll.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+<link name="gripperBody">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperBase.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperBaseColl.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+<link name="gripperFinger1">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperFinger.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperFingerColl.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+<link name="gripperFinger2">
+    <visual>
+	<origin rpy="0 0 0" xyz="0 0 0.0"/>
+      <geometry>
+	<mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperFinger.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0 0 0 0.8"/>
+      </material>
+    </visual>
+ <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://robot_description/meshes/GeometryCPRMover4/GripperFingerColl.obj" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+
+
+
+
+<joint name="Joint0" type="continuous">
+    <axis xyz="0 0 1"/>
+    <parent link="arm_base_link"/> <!--changed base_link to arm_base_link-->
+    <child link="geoJoint1"/>
+    <origin rpy="0 0 0" xyz="0 0 0.158"/>
+    <limit effort="100" velocity="30"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+<joint name="Joint1" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="geoJoint1"/>
+    <child link="geoJoint2"/>
+    <origin rpy="0 0 0" xyz="0 0 0.060"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+<joint name="Joint2" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="geoJoint2"/>
+    <child link="geoJoint3"/>
+    <origin rpy="0 0 0" xyz="0 0 0.190"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+ <joint name="Joint3" type="continuous">
+    <axis xyz="0 1 0"/>
+    <parent link="geoJoint3"/>
+    <child link="geoJoint4"/>
+    <origin rpy="0 0 0" xyz="0 0 0.220"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+
+
+<joint name="GripperFixed" type="fixed">
+    <parent link="geoJoint4"/>
+    <child link="gripperBody"/>
+    <origin rpy="0 0 0" xyz="0 0 0.046"/>
+  </joint>
+<!--<joint name="Gripper1" type="continuous">
+    <axis xyz="1 0 0"/>
+    <parent link="gripperBody"/>
+    <child link="gripperFinger1"/>
+    <origin rpy="0 0 3.141" xyz="0.0 0.01 0.03"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>
+<joint name="Gripper2" type="continuous">
+    <axis xyz="1 0 0"/>
+    <parent link="gripperBody"/>
+    <child link="gripperFinger2"/>
+     <origin rpy="0 0 0" xyz="0.0 -0.01 0.03"/>
+    <limit effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+  </joint>-->
+<!-- THIS IS A TEST USING PRISMATIC JOINT AND MIMMIC IN ORDER TO MODEL THE ACTUAL GRIPPER ON THE MOVER4 ARM WE HAVE-->
+
+<!-- use multiplier =-1  for the second joint doesent work as expected (mirror), so not using it????-->
+<joint name="Gripper1" type="prismatic">
+    <parent link="gripperBody"/>
+    <child link="gripperFinger1"/>
+    <origin rpy="0 0 3.141" xyz="0.0 0.01 0.03"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0.0" upper="-0.01"  effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+
+  </joint>
+<joint name="Gripper2" type="prismatic">
+    <parent link="gripperBody"/>
+    <child link="gripperFinger2"/>
+     <origin rpy="0 0 0" xyz="0.0 -0.01 0.03"/>
+    <axis xyz="0 1 0"/>
+
+   <limit lower="-0.0" upper="0.01" effort="100" velocity="100"/>
+    <joint_properties damping="0.0" friction="0.0"/>
+<mimic joint="Gripper1" multiplier="1" offset="0"/>
+  </joint>
+
+</xacro:macro> 
+  
+</robot>
+

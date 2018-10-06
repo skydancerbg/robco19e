@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot name="macros" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<!-- Macros file for Robco19M -->
+<!-- Created by Stefan -->
+<!-- Service Robotics Group Bulgaria - Version 1.0 from Oct. 1th, 2018. -->
+
+ <xacro:macro name="mecanum_wheel" params="name x y z roll pitch yaw color">
+<link name="${name}">
+    <collision name="${name}_collision">
+      <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <visual name="${name}_visual">
+      <origin xyz="0 0 0" rpy="0 ${pitch} ${yaw}"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+       <material name="${color}"/>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 ${pitch} ${yaw}"/>
+      <mass value="${wheel_mass}"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>    
+ </xacro:macro>
+
+
+
+</robot>
