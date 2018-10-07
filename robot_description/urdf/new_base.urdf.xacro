@@ -1,0 +1,696 @@
+<?xml version="1.0"?>
+
+<robot name="robko19e_base" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- Properties file for Robco19M robot -->
+<!-- Created by Stefan -->
+<!-- Service Robotics Group Bulgaria - Version 1.0 from Oct. 1th, 2018. -->
+
+<!--<xacro:include filename="$(find robot_description)/urdf/new_properties.xacro" />-->
+
+ <!--<xacro:include filename="$(find robot_description)/urdf/robko18.gazebo" />-->
+  <xacro:include filename="$(find robot_description)/urdf/materials.xacro" />
+  <!--<xacro:include filename="$(find robot_description)/urdf/macros.xacro" />-->
+  <!-- 3D Sensors -->
+  <!--<xacro:include filename="$(find robot_description)/urdf/kinect.urdf.xacro"/>-->
+
+
+
+  <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin, navigation stack depends on this frame -->
+
+<link name="base_footprint">
+  <!--base link should not have inertia!!!because of moveit and gazebo!-->
+  <!--
+    <inertial>
+      <mass value="0.0001" />
+      <origin xyz="0 0 0" />
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+              iyy="0.0001" iyz="0.0"
+              izz="0.0001" />
+    </inertial>
+    -->
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.001 0.001 0.001" />
+      </geometry>
+      <material name="red" />
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.017" rpy="0 0 0" />
+      <geometry>
+       <box size="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+
+</link>
+
+    <gazebo reference="base_footprint">
+        <turnGravityOff>false</turnGravityOff>
+    </gazebo>
+
+  <!-- JOINT BASE_LINK TO BASE_FRAME-->
+  <joint name="base_footprint_base_link_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 ${base_from_base_frame_Z_offset}"/>
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+  </joint>
+
+<!-- BASE-LINK -->
+  <!--Center on the bottom side of the base plate of the robot-->
+
+ <link name="base_link">
+   <pose>0 0 0.1 0 0 0</pose>
+
+   <inertial>
+      <origin xyz="0.0 0 ${eddie_plate_half_height}" rpy=" 0 0 0"/>
+      <mass value="${base_mass}"/>
+      <inertia
+          ixx="0.1" ixy="0" ixz="0"
+          iyy="0.1" iyz="0"
+          izz="0.1"
+      />
+    </inertial>
+
+    <collision name="collision">
+    <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+      <geometry>
+       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+      </geometry>
+    </collision>
+
+    <visual name="base_visual">
+      <!--<origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />      -->
+      <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <!--<cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>-->
+        <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <!--<material name="orange"/>-->
+    </visual>
+
+  </link>
+
+
+<!--###########  DRIVE WHEELS #############################-->
+
+<!--########### left wheel #############################-->
+  <link name="left_wheel">
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 ${ROTATE_90_DEGREES} ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_visual">
+      <!--<origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>-->
+      <origin xyz="0 0 0" rpy="0 ${2*ROTATE_90_DEGREES} ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Eddiebot/wheel.dae" scale="0.0012 0.0012 0.0012"/>
+        <!--<cylinder radius="${wheel_radius}" length="${wheel_width}"/>-->
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 ${ROTATE_90_DEGREES} ${ROTATE_90_DEGREES}"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <joint type="continuous" name="left_wheel_hinge">
+    <origin xyz="0 ${base_y_origin_to_wheel_origin} ${base_z_origin_to_wheel_origin}" rpy="0 0 0"/>
+        <!--<origin xyz="0 0.19 -${0.10 - 0.0231}" rpy="0 0 0"/>-->
+    <child link="left_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+<!--########### right wheel #############################-->
+  <link name="right_wheel">
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 ${ROTATE_90_DEGREES} ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+      </geometry>
+    </collision>
+    <visual name="left_wheel_visual">
+      <!--<origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>-->
+      <origin xyz="0 0 0" rpy="0 0 ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/Eddiebot/wheel.dae" scale="0.0012 0.0012 0.0012"/>
+        <!--<cylinder radius="${wheel_radius}" length="${wheel_width}"/>-->
+      </geometry>
+    </visual>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 ${ROTATE_90_DEGREES} ${ROTATE_90_DEGREES}"/>
+      <mass value="5"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+  <joint type="continuous" name="right_wheel_hinge">
+    <origin xyz="0 -${base_y_origin_to_wheel_origin} ${base_z_origin_to_wheel_origin}" rpy="0 0 0"/>
+    <!--<origin xyz="0 -0.19 -0.0231" rpy="0 0 0"/>-->
+    <child link="right_wheel"/>
+    <parent link="base_link"/>
+    <axis xyz="0 1 0" rpy="0 0 0"/>
+    <limit effort="10000" velocity="1000"/>
+    <joint_properties damping="1.0" friction="1.0"/>
+  </joint>
+
+<!--########################################-->
+
+<!--###########  CASTER WHEELS #############################-->
+
+<!--########### caster front #############################-->
+  <link name="caster_box_front">
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${caster_box_lenght/2} ${caster_box_width/2} ${caster_box_height}"/>
+      </geometry>
+    </collision>
+    <!--NO VISUAL FOR NOW    ->       TODO: CREATE MESH FOR THE CASTER WHEEL-->
+    <!--<visual name="caster_box_front_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${caster_box_lenght/2} ${caster_box_width/2} ${caster_box_height}"/>
+      </geometry>
+       <material name="black"/>
+    </visual>-->
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+    <!-- JOINT caster_box_front TO base_link-->
+  <joint name="base_caster_box_front_joint" type="fixed">
+    <!-- NB: Z goes to - as we are below bottom deck(base) -->
+    <origin rpy="0 0 0" xyz="${caster_X_offset_from_base_link} 0 -${caster_box_height/2}"/>
+    <parent link="base_link"/>
+    <child link="caster_box_front"/>
+  </joint>
+
+     <!--********caster sphere front*********************-->
+    <link name="caster_sphere_front">
+        <collision name="collision">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${caster_sphere_radius}"/>
+            </geometry>
+        </collision>
+        <!--NO VISUAL FOR NOW    ->       TODO: CREATE MESH FOR THE CASTER WHEEL-->
+        <!--<visual name="caster_sphere_front_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_sphere_radius}"/>
+      </geometry>
+      <material name="black"/>
+        </visual>-->
+        <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+        </inertial>
+    </link>
+
+    <!-- JOINT caster_sphere_front TO caster_box_front-->
+  <joint name="caster_box_front_caster_sphere_front_joint" type="fixed">
+    <!-- NB: Z goes to - as we are below bottom deck(base)-->
+    <origin rpy="0 0 0" xyz="0 0 -${caster_box_height/2 + caster_sphere_radius}"/>
+    <parent link="caster_box_front"/>
+    <child link="caster_sphere_front"/>
+  </joint>
+
+<!--########### caster back #############################-->
+  <link name="caster_box_back">
+    <collision name="collision">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${caster_box_lenght/2} ${caster_box_width/2} ${caster_box_height}"/>
+      </geometry>
+    </collision>
+    <!--NO VISUAL FOR NOW    ->       TODO: CREATE MESH FOR THE CASTER WHEEL-->
+    <!--<visual name="caster_box_front_visual">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${caster_box_lenght/2} ${caster_box_width/2} ${caster_box_height}"/>
+      </geometry>
+       <material name="black"/>
+    </visual>-->
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.15"/>
+      <inertia
+        ixx=".1" ixy="0.0" ixz="0.0"
+        iyy=".1" iyz="0.0"
+        izz=".1"/>
+    </inertial>
+  </link>
+
+    <!-- JOINT caster_box_back TO base_link-->
+  <joint name="base_caster_box_back_joint" type="fixed">
+     <!-- NB: Z goes to - as we are below bottom deck(base) -->
+    <origin rpy="0 0 0" xyz="-${caster_X_offset_from_base_link} 0 -${caster_box_height/2}"/>
+    <parent link="base_link"/>
+    <child link="caster_box_back"/>
+  </joint>
+  
+     <!--*********caster sphere back********************-->
+    <link name="caster_sphere_back">
+        <collision name="collision">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+            <sphere radius="${caster_sphere_radius}"/>
+            </geometry>
+        </collision>
+        <!--NO VISUAL FOR NOW    ->       TODO: CREATE MESH FOR THE CASTER WHEEL-->
+        <!--<visual name="caster_sphere_front_visual">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="${caster_sphere_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>-->
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.15"/>
+            <inertia
+                ixx=".1" ixy="0.0" ixz="0.0"
+                iyy=".1" iyz="0.0"
+                izz=".1"/>
+        </inertial>
+    </link>
+
+    <!-- JOINT caster_sphere_back TO caster_box_back-->
+  <joint name="caster_box_back_caster_sphere_back_joint" type="fixed">
+    <!-- NB: Z goes to - as we are below bottom deck(base)-->
+    <origin rpy="0 0 0" xyz="0 0 -${caster_box_height/2 + caster_sphere_radius}"/>
+    <parent link="caster_box_back"/>
+    <child link="caster_sphere_back"/>
+  </joint>
+
+<!--########################################-->
+
+<!--###########  STANDOFFS ON BASE PLATE  #############################-->
+  <robco_standoff_first_second_deck parent="base_link" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="1" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="2" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="3" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+
+
+<!--########################################-->
+
+<!--###########  SECOND DECK  #############################-->
+
+
+ <!-- JOINT second_deck TO BASE_LINK -->
+  <joint name="base_link_second_deck_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 ${second_deck_from_base_link_Z_offset+eddie_plate_half_height}"/>
+    <parent link="base_link"/>
+    <child link="second_deck"/>
+  </joint>
+
+  <!--Link centered on the bottom side of the second deck/plate of the robot-->
+  <link name="second_deck">
+    <pose>0 0 0.1 0 0 0</pose>
+
+    <inertial>
+      <mass value="${second_deck_mass}"/>
+      <origin xyz="0.0 0 0" rpy=" 0 0 0"/>
+      <inertia
+          ixx="0.1" ixy="0" ixz="0"
+          iyy="0.1" iyz="0"
+          izz="0.1"
+      />
+    </inertial>
+
+    <collision name="collision">
+        <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+      <geometry>
+       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+      </geometry>
+    </collision>
+
+    <visual name="second_deck_visual">
+        <!--<origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />      -->
+      <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <!--<cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>-->
+        <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>       
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+  </link>
+
+<!--########################################-->
+
+<!--###########  STANDOFFS ON SECOND PLATE  #############################-->
+  <robco_standoff_first_second_deck parent="second_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="2" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="3" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+
+
+<!--########################################-->
+
+<!--######### THIRD DECK ###############################-->
+
+  <!-- JOINT THIRD_DECK TO SECOND_DECK -->
+  <joint name="third_deck_second_deck_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 ${third_deck_from_second_deck_Z_offset+eddie_plate_half_height}"/>
+    <parent link="second_deck"/>
+    <child link="third_deck"/>
+  </joint>
+
+
+  <!--Link centered on the bottom side of the third plate of the robot-->
+  <link name="third_deck">
+    <pose>0 0 0.1 0 0 0</pose>
+
+    <inertial>
+      <mass value="${third_deck_mass}"/>
+      <origin xyz="0.0 0 0.1" rpy=" 0 0 0"/>
+      <inertia
+          ixx="0.1" ixy="0" ixz="0"
+          iyy="0.1" iyz="0"
+          izz="0.1"
+      />
+    </inertial>
+
+    <collision name="collision">
+      <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+      <geometry>
+       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+      </geometry>
+    </collision>
+
+    <visual name="third_deck__visual">
+      <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
+      <geometry>
+        <!--<cylinder radius="${base_radius}" length="${base_height}"/>-->
+        <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+  </link>
+
+<!--########################################-->
+
+<!--###########  KINECT STANDOFFS ON THIRD PLATE  #############################-->
+  <robco_standoff_first_second_deck parent="second_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+
+
+
+
+
+
+<!--###################################################################################-->
+
+
+<!-- ####### generic constants ##### -->
+  <!--All units in m-kg-s-radians unit system -->
+  <xacro:property name="M_PI" value="3.14159265358979323846264338327950288419716" />
+  <!--<xacro:property name="M_PI" value="3.1415926535897931" />-->
+  <xacro:property name="M_PI_2" value="1.570796327" />
+  <xacro:property name="ROTATE_90_DEGREES" value="1.570796327" />
+  <xacro:property name="DEG_TO_RAD" value="0.017453293" />
+  <xacro:property name="SCALE_in_m" value="0.0254"/> <!--inches to meters-->
+  <xacro:property name="SCALE_mm_m" value="0.001"/> <!--milimeters to meters-->
+  <xacro:property name="kgcm_to_nm" value="0.0980665" />
+
+   <!-- ####### robot constants ##### -->
+  <xacro:property name="eddie_plate_height" value="${0.375*SCALE_in_m}" />
+  <xacro:property name="eddie_plate_half_height" value="${0.375*SCALE_in_m/2}" />
+  <xacro:property name="eddie_plate_diameter" value="${17.75*SCALE_in_m}" />
+  <xacro:property name="eddie_plate_radius" value="${17.75*SCALE_in_m/2}" />
+
+
+  <!-- base_link - Base Plate/Deck Cylinder base   -->
+  <xacro:property name="base_from_base_frame_Z_offset" value="${caster_assy_height}"/>   <!--da go naprawia param za macroto i ne triabva li da e +  eddie_plate_half_height  -->
+  <xacro:property name="base_height" value="${0.375*SCALE_in_m}" />
+  <xacro:property name="base_radius" value="${17.75*SCALE_in_m/2}" />
+
+  <!-- in kg weight with the battery holder plate bellow -->
+  <xacro:property name="base_mass" value="1.75" /> <!-- towa e tegloeoto samo na plochite, da dobavia egloto na akumulatorite dwigateliite i kolelata-->
+
+   <!-- distance between the robot origin and the bottom of the base plate along the z axis (robot up) -->
+  <!--<xacro:property name="BASE_PLATE_FROM_BASE_FRAME_Z_OFFSET" value="${caster_assy_height+eddie_plate_half_height}" />  meters -->
+
+ <!-- second_deck - Base Plate/Deck Cylinder base   -->
+  <xacro:property name="top_first_botom_second_deck_distance" value="${0.145}" />
+  <xacro:property name="second_deck_from_base_link_Z_offset" value="${top_first_botom_second_deck_distance + eddie_plate_half_height}"/>
+  <xacro:property name="second_deck_height" value="${0.375*SCALE_in_m}" />
+  <xacro:property name="second_deck_radius" value="${17.75*SCALE_in_m/2}" />
+  <xacro:property name="second_deck_mass" value="1.5" />   <!-- in kg -->
+
+  <!-- third_deck - Base Plate/Deck Cylinder base   -->
+  <xacro:property name="top_second_botom_third_deck_distance" value="${0.156}" />
+  <xacro:property name="third_deck_from_second_deck_Z_offset" value="${top_second_botom_third_deck_distance + eddie_plate_half_height}"/>
+  <xacro:property name="third_deck_height" value="${0.375*SCALE_in_m}" />
+  <xacro:property name="third_deck_radius" value="${17.75*SCALE_in_m/2}" />
+  <xacro:property name="third_deck_mass" value="1.5" />   <!-- in kg -->
+
+
+  <!-- Wheels -->
+  <xacro:property name="wheel_diameter" value="${6*SCALE_in_m}" />
+  <xacro:property name="wheel_radius" value="${wheel_diameter/2}" />
+  <xacro:property name="wheel_width" value="${1.25*SCALE_in_m/2}" />
+  <xacro:property name="wheel_mass" value="0.6" /> <!-- ???? in kg-->
+  <xacro:property name="base_x_origin_to_wheel_origin" value="0.0" />
+  <xacro:property name="base_y_origin_to_wheel_origin" value="0.2" /> <!--VAJNO!!!!!! da se izmeri pak - ot tova zawisi odometriata!!!!!!!!!!! -->
+    <!--<xacro:property name="base_y_origin_to_wheel_origin" value="0.19" />-->
+  <xacro:property name="base_z_origin_to_wheel_origin" value="${-(base_from_base_frame_Z_offset - wheel_radius)}" />
+
+  <!-- caster wheel offsets from base origin -->
+  <xacro:property name="caster_X_offset_from_base_link" value="0.17"/>
+  <!-- caster wheel radius and height -->
+  <!-- caster wheel mass -->
+  <xacro:property name="caster_assy_height" value="${0.09825}" />
+  <xacro:property name="caster_wheel_radius" value="${3*SCALE_in_m/2}" />
+
+  <xacro:property name="caster_box_mass" value="0.15" /> <!-- in kg-->
+  <xacro:property name="caster_box_height" value="${caster_assy_height- caster_wheel_radius*2}" />
+  <xacro:property name="caster_box_width" value="${caster_assy_height - caster_wheel_radius*2}" />
+  <xacro:property name="caster_box_lenght" value="${caster_assy_height- caster_wheel_radius*2}" />
+  <xacro:property name="caster_sphere_mass" value="0.15" /> <!-- in kg-->
+  <xacro:property name="caster_sphere_diameter" value="${caster_wheel_radius*2}" />
+  <xacro:property name="caster_sphere_radius" value="${caster_sphere_diameter/2}" />
+
+  <!-- SENSORS -->
+
+ <!-- Kinect -->
+ <!-- kinect_mount_point - joint data for maunting kinect relative to base_link  -->
+  <xacro:property name="kinect_mount_point_from_base_link_Z_offset" value="0.50" />
+  <!--<xacro:property name="kinect_mount_point_from_base_link_X_offset" value="-${base_radius - 0.10}"/> -->
+  <xacro:property name="kinect_mount_point_from_base_link_X_offset" value="-${0.14509}"/>
+  <xacro:property name="kinect_support_height" value="0.02" />
+  <xacro:property name="kinect_support_width" value="${eddie_plate_height}" />
+  <xacro:property name="kinect_support_lenght" value="0.02" />
+  <xacro:property name="kinect_support_mass" value=".05" />    <!--in kg-->
+
+  <!-- Hokuyo Laser scanner -->
+  <xacro:property name="hokuyo_size" value="0.05" />
+
+    <!-- camera -->
+  <xacro:property name="cameraSize" value="0.05"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+
+
+
+
+<!--###################################################################################-->
+
+
+  <xacro:macro name="eddiebot_standoff_2in" params="parent number x_loc y_loc z_loc">
+    <joint name="standoff_2in_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_2in_${number}_link" />
+    </joint>
+
+    <link name="standoff_2in_${number}_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+          iyy="0.0001" iyz="0.0"
+          izz="0.0001" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robot_description/meshes/68-04552-2000-RA_Eddiebot_M-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.0635" radius="0.0381"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+
+  <xacro:macro name="eddiebot_standoff_8in" params="parent number x_loc y_loc z_loc">
+    <joint name="standoff_8in_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_8in_${number}_link" />
+    </joint>
+
+    <link name="standoff_8in_${number}_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+          iyy="0.0001" iyz="0.0"
+          izz="0.0001" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.2032" radius="0.011113"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+<!--###################### ROBCO STANDOFFS #######################################################################-->
+
+  <xacro:macro name="robco_standoff_first_second_deck" params="parent number lenght x_loc y_loc z_loc">
+    <joint name="standoff_first_second_deck_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc+lenght/2}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_first_second_deck_${number}_link" />
+    </joint>
+
+    <link name="standoff_first_second_deck_${number}_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+          iyy="0.0001" iyz="0.0"
+          izz="0.0001" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${lenght}" radius="0.011113"/>        
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+        </geometry>
+        <material name="silver"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${lenght}" radius="0.011113"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="robco_standoff_second_third_deck" params="parent number lenght x_loc y_loc z_loc">
+    <joint name="standoff_second_third_deck_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc+lenght/2}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_second_third_deck_${number}_link" />
+    </joint>
+
+    <link name="standoff_second_third_deck_${number}_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+          iyy="0.0001" iyz="0.0"
+          izz="0.0001" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${lenght}" radius="0.011113"/>        
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+        </geometry>
+        <material name="silver"/>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="${lenght}" radius="0.011113"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+
+  <xacro:macro name="eddiebot_standoff_kinect" params="parent number x_loc y_loc z_loc">
+    <joint name="standoff_kinect_${number}_joint" type="fixed">
+      <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
+      <parent link="${parent}"/>
+      <child link="standoff_kinect_${number}_link" />
+    </joint>
+
+    <link name="standoff_kinect_${number}_link">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+          iyy="0.0001" iyz="0.0"
+          izz="0.0001" />
+      </inertial>
+
+      <visual>
+        <origin xyz=" 0 0 0 " rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <geometry>
+          <cylinder length="0.008585" radius="0.001111"/>
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+
+
+</robot>
