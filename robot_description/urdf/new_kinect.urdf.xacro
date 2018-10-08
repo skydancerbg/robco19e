@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
-<robot name="eddiebot_hardware" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="robco_hardware" xmlns:xacro="http://ros.org/wiki/xacro">
   <property name="M_PI" value="3.14159"/>
 
-  <include filename="$(find eddiebot_description)/urdf/gazebo.urdf.xacro"/>
-  <include filename="$(find eddiebot_description)/urdf/eddiebot_calibration.xacro" />
+  <include filename="$(find robco_description)/urdf/new_gazebo.urdf.xacro"/>
+  <include filename="$(find robco_description)/urdf/new_calibration.xacro" />
 
-<xacro:macro name="eddiebot_kinect">
+<xacro:macro name="robco_kinect">
   <joint name="base_camera_joint" type="fixed">
-    <origin xyz="${eddiebot_calib_cam_x} ${eddiebot_calib_cam_y} ${eddiebot_calib_cam_z}" 
-            rpy="${eddiebot_calib_cam_rr} ${eddiebot_calib_cam_rp} ${eddiebot_calib_cam_ry}" />
-    <parent link="${eddiebot_camera_parent_name}" />
+    <origin xyz="${robco_calib_cam_x} ${robco_calib_cam_y} ${robco_calib_cam_z}" 
+            rpy="${robco_calib_cam_rr} ${robco_calib_cam_rp} ${robco_calib_cam_ry}" />
+    <parent link="${robco_camera_parent_name}" />
     <child link="camera_link" />
   </joint>
 
@@ -25,7 +25,7 @@
     <visual>
       <origin xyz=" 0 0 0 " rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://eddiebot_description/meshes/kinect.dae"/>
+        <mesh filename="package://robot_description/meshes/kinect.dae"/>
       </geometry>
     </visual>
 
@@ -103,7 +103,7 @@
   </link>
 
   <!-- Kinect sensor for simulation -->
-  <eddiebot_sim_kinect/>
+  <new_sim_kinect/>
 </xacro:macro>
 
 </robot>

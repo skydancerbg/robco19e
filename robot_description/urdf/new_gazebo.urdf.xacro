@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 
-<robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro" name="eddiebot_gazebo">
+<robot xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://ros.org/wiki/xacro" name="robco_gazebo">
 
 <!-- ASUS Xtion PRO camera for simulation -->
 <!-- gazebo_ros_wge100 plugin is in kt2_gazebo_plugins package -->
-<xacro:macro name="eddiebot_sim_asus_xtion">
+<xacro:macro name="robco_sim_asus_xtion">
   <gazebo reference="camera_link" >
     <sensor:camera name="camera" >
       <imageSize>640 480</imageSize>
@@ -34,7 +34,7 @@
   </gazebo>
 </xacro:macro>
 
-<xacro:macro name="eddiebot_sim_kinect">
+<xacro:macro name="robco_sim_kinect">
   <gazebo reference="camera_link">
     <sensor:camera name="camera">
       <imageFormat>R8G8B8</imageFormat>
@@ -61,7 +61,7 @@
   </gazebo>
 </xacro:macro>
 
-<xacro:macro name="eddiebot_sim_imu">
+<xacro:macro name="robco_sim_imu">
   <gazebo>
     <controller:gazebo_ros_imu name="imu_controller" plugin="libgazebo_ros_imu.so">
       <alwaysOn>true</alwaysOn>
@@ -76,7 +76,7 @@
   </gazebo>
 </xacro:macro>
 
-<xacro:macro name="eddiebot_sim_laser">
+<xacro:macro name="robco_sim_laser">
   <gazebo reference="laser">
     <sensor:ray name="laser">
       <rayCount>180</rayCount>
@@ -105,11 +105,11 @@
   </gazebo>
 </xacro:macro>
 
-<xacro:macro name="eddiebot_sim_create">
+<xacro:macro name="robco_sim_create">
   <gazebo>
     <controller:gazebo_ros_create name="create_controller" plugin="libgazebo_ros_create.so">
       <alwaysOn>true</alwaysOn>
-      <node_namespace>eddiebot_node</node_namespace>
+      <node_namespace>robco_node</node_namespace>
       <left_wheel_joint>left_wheel_joint</left_wheel_joint>
       <right_wheel_joint>right_wheel_joint</right_wheel_joint>
       <front_castor_joint>front_castor_joint</front_castor_joint>
@@ -123,7 +123,7 @@
   </gazebo>
 </xacro:macro>
 
-<xacro:macro name="eddiebot_sim_wall_sensors">
+<xacro:macro name="robco_sim_wall_sensors">
   <gazebo reference="wall_sensor_link">
     <sensor:ray name="wall_sensor">
       <alwaysActive>true</alwaysActive>
