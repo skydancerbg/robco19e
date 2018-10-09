@@ -15,7 +15,7 @@
   <!-- 3D Sensors -->
   <!--<xacro:include filename="$(find robot_description)/urdf/kinect.urdf.xacro"/>-->
    <xacro:include filename="$(find robot_description)/urdf/new_mover4.macro.urdf.xacro" />
- 
+
 
 <!--###################################################################################-->
 <!--###################################################################################-->
@@ -114,9 +114,9 @@
   <xacro:property name="kinect_mount_point_from_support_plate_X_offset" value="${0.0}"/>
   <xacro:property name="kinect_mount_point_from_support_plate_Y_offset" value="${0.0}" />
   <xacro:property name="kinect_mount_point_from_support_plate_Z_offset" value="${kinect_support_half_height}" />
-  
 
-  <xacro:property name="kinect_support_from_kinect_standoff_0__X_offset" value="${0.0}"/>  
+
+  <xacro:property name="kinect_support_from_kinect_standoff_0__X_offset" value="${0.0}"/>
   <xacro:property name="kinect_support_from_kinect_standoff_0__Y_offset" value="${-0.06}"/>
   <xacro:property name="kinect_support_from_kinect_standoff_0__Z_offset" value="${(kinect_standoff_lenght - kinect_support_height)/2+kinect_support_half_height}" />
   <xacro:property name="kinect_support_height" value="${eddie_plate_height}" />
@@ -130,11 +130,11 @@
    <xacro:property name="kinect_body_x" value="0.07271" />
    <xacro:property name="kinect_body_y" value="0.27794" />
    <xacro:property name="kinect_body_z" value="0.033" />
-   
+
    <xacro:property name="kinect_base_x" value="0.072" />
    <xacro:property name="kinect_base_y" value="0.085" />
    <xacro:property name="kinect_base_z" value="0.021" />
-   
+
    <xacro:property name="kinect_base_post_height" value="0.016" />
    <xacro:property name="kinect_base_post_radius" value="0.005" />
 
@@ -173,7 +173,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <cylinder length="${lenght}" radius="0.011113"/>        
+          <cylinder length="${lenght}" radius="0.011113"/>
           <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
         </geometry>
         <material name="silver"/>
@@ -207,7 +207,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <cylinder length="${lenght}" radius="0.011113"/>        
+          <cylinder length="${lenght}" radius="0.011113"/>
           <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
         </geometry>
         <material name="silver"/>
@@ -241,7 +241,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <cylinder length="${lenght}" radius="0.011113"/>        
+          <cylinder length="${lenght}" radius="0.011113"/>
           <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
         </geometry>
         <material name="silver"/>
@@ -292,7 +292,7 @@
 
 
 <xacro:macro name="robco_kinect_support_plate" params="parent lenght width height x_loc y_loc z_loc">
-    <joint name="kinect_support_plate_joint" type="fixed"> 
+    <joint name="kinect_support_plate_joint" type="fixed">
       <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
       <parent link="${parent}"/>
       <child link="kinect_support_plate_link" />
@@ -329,7 +329,7 @@
 
 
 <xacro:macro name="robco_mountpoint_visualizer_box" params="parent device_name lenght width height x_loc y_loc z_loc">
-    <joint name="${device_name}_mount_point_visualizer_joint" type="fixed"> 
+    <joint name="${device_name}_mount_point_visualizer_joint" type="fixed">
       <origin xyz="${x_loc} ${y_loc} ${z_loc}" rpy="0 0 0" />
       <parent link="${parent}"/>
       <child link="${device_name}_mount_point_visualizer_link" />
@@ -372,7 +372,7 @@
          <parent link="${parent}_link"/>
          <child link="${name}_base_link"/>
       </joint>
-      
+
       <link name="${name}_base_link">
          <visual>
             <origin xyz="0 0.0 0.0" rpy="0 0 0" />
@@ -388,13 +388,13 @@
             </geometry>
          </collision>
       </link>
-      
+
       <joint name="${name}_base_post_joint" type="fixed">
          <origin xyz="0 0 ${(kinect_base_z + kinect_base_post_height)/2}" rpy="0 0 0" />
          <parent link="${name}_base_link" />
          <child link="${name}_base_post_link" />
       </joint>
-      
+
       <link name="${name}_base_post_link">
          <visual>
             <origin xyz="0 0 0" rpy="0 0 0" />
@@ -410,30 +410,30 @@
             </geometry>
          </collision>
       </link>
-    
+
       <joint name="${name}_base_joint" type="fixed">
          <origin xyz="0 0 ${(kinect_base_post_height + kinect_body_z)/2}" rpy="0 0 0" />
          <parent link="${name}_base_post_link" />
          <child link="${name}_link" />
       </joint>
-      
+
       <link name="${name}_link">
          <visual>
-            <!--<origin xyz="0 0 0" rpy="0 0 0" />-->         
+            <!--<origin xyz="0 0 0" rpy="0 0 0" />-->
             <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
-               <box size="${kinect_body_x} ${kinect_body_y} ${kinect_body_z}"/>               
+               <box size="${kinect_body_x} ${kinect_body_y} ${kinect_body_z}"/>
             </geometry>
             <material name="${color}" />
          </visual>
          <collision>
-            <origin xyz="0 0 0" rpy="0 0 0" />            
+            <origin xyz="0 0 0" rpy="0 0 0" />
             <geometry>
                <box size="${kinect_body_x} ${kinect_body_y} ${kinect_body_z}"/>
             </geometry>
          </collision>
       </link>
-    
+
       <joint name="${name}_depth_joint" type="fixed">
          <origin xyz="0 0.0125 0" rpy="0 0 0" />
           <parent link="${name}_link" />
@@ -497,7 +497,7 @@
                izz="0.0001" />
          </inertial>
       </link>
-  
+
    </xacro:macro>
 
 <!--###################################################################################-->
@@ -765,7 +765,7 @@
     <parent link="base_link"/>
     <child link="caster_box_back"/>
   </joint>
-  
+
      <!--*********caster sphere back********************-->
     <link name="caster_sphere_back">
         <collision name="collision">
@@ -854,7 +854,7 @@
       <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
       <geometry>
         <!--<cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>-->
-        <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>       
+        <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -980,7 +980,7 @@
 
   <!--##### ARM MOUNT JOINT #############################################################################-->
   <!--<joint name="Arm_mount_joint" type="fixed">
-    <parent link="base_link"/> 
+    <parent link="base_link"/>
     <child link="arm_base_link"/>
     <origin xyz="0 0 0" rpy="0 0 0" />
   </joint>-->
@@ -1012,18 +1012,49 @@
 
 <!--######### LASER (RP Lidar) ###############################-->
 
-
-
-  <joint name="laser_joint" type="fixed">
-    <origin xyz="-0.065 0 0.075" rpy="0 0 0" />
-    <parent link="base_link" />
-    <child link="laser" />
+  <joint name="rplidar_joint" type="fixed">
+    <!--<axis xyz="0 1 0" />-->
+    <!--<origin xyz="0.02 0 0.086" rpy="0 0 0"/>-->
+    <origin xyz="0.50 0 ${eddie_plate_height+0.05}" rpy="0 0 0" />
+    <parent link="second_deck"/>
+    <child link="rplidar_laser_beam"/>
   </joint>
 
-  <link name="laser">
+  <!-- rplidar Laser -->
+  <link name="rplidar_laser_beam">
+      <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+
+   <visual>
+      <origin xyz="0 0 -0.03" rpy="1.5707 0 4.71"/>
+      <geometry>
+        <mesh filename="package://robot_description/meshes/rplidar-a2m4.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+    </inertial>
+  </link>
+
+  <joint name="laser_joint" type="fixed">
+    <!--<origin xyz="-0.065 0 0.075" rpy="0 0 0" />-->
+    <origin xyz="0.20 0 ${eddie_plate_height}" rpy="0 0 0" />
+    <parent link="second_deck" />
+    <child link="laser_visual" />
+  </joint>
+
+  <link name="laser_visual">
     <visual>
       <geometry>
-        <box size="0.02 0.035 0.002" />
+     <mesh filename="package://robot_description/meshes/rplidar_a2/RPlidar_A2.stl.obj" scale="0.001 0.001 0.001"/>
+        <!--<box size="0.02 0.035 0.002" />-->
       </geometry>
       <material name="green" />
     </visual>
@@ -1054,12 +1085,13 @@
       <geometry>
         <!--<box size="0.02 0.035 0.002" />-->
           <!--<mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
-        
+        	<!--<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint0.obj" scale="0.001 0.001 0.001"/>-->
+
      <!--<mesh filename="package://robot_description/meshes/rplidar_a2/RPlidar_A2.stl.obj" scale="0.001 0.001 0.001"/>-->
-     <mesh filename="package://robot_description/meshes/Kinect/kinect.obj" scale="0 0 0"/>
+     <mesh filename="package://robot_description/meshes/kinect.dae.stl" scale="0.001 0.001 0.001"/>
         <!--<box size="0.2 0.2 0.2" />-->
       </geometry>
-      <!--<material name="green" />-->
+      <material name="red" />
     </visual>
     <inertial>
       <mass value="0.001" />
