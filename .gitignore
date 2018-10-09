@@ -54,3 +54,5 @@ el/isolated
 .ycm_extra_conf.py
 .catkin_workspace
 
+# Rviz auto generated file
+/cpr_rviz_plugin/model.urdf

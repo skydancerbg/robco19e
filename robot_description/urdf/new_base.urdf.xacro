@@ -26,7 +26,8 @@
 
 
 
-<!-- ####### generic constants ##### -->
+  <!-- ####### GENERIC CONSTANTS ##### -->
+
   <!--All units in m-kg-s-radians unit system -->
   <xacro:property name="PI" value="3.1415" />
   <xacro:property name="M_PI" value="3.14159265358979323846264338327950288419716" />
@@ -34,60 +35,65 @@
   <xacro:property name="M_PI_2" value="1.570796327" />
   <xacro:property name="ROTATE_90_DEGREES" value="1.570796327" />
   <xacro:property name="DEG_TO_RAD" value="0.017453293" />
-  <xacro:property name="SCALE_in_m" value="0.0254"/> <!--inches to meters-->
-  <xacro:property name="SCALE_mm_m" value="0.001"/> <!--milimeters to meters-->
+  <xacro:property name="SCALE_in_to_m" value="0.0254"/> <!--inches to meters-->
+  <xacro:property name="SCALE_mm_to_m" value="0.001"/> <!--milimeters to meters-->
   <xacro:property name="kgcm_to_nm" value="0.0980665" />
 
-   <!-- ####### robot constants ##### -->
-  <xacro:property name="eddie_plate_height" value="${0.375*SCALE_in_m}" />
-  <xacro:property name="eddie_plate_half_height" value="${0.375*SCALE_in_m/2}" />
-  <xacro:property name="eddie_plate_diameter" value="${17.75*SCALE_in_m}" />
-  <xacro:property name="eddie_plate_radius" value="${17.75*SCALE_in_m/2}" />
+
+  <!-- ####### ROBOT CONSTANTS ##### -->
 
 
-  <!-- base_link - Base Plate/Deck Cylinder base   -->
-  <xacro:property name="base_from_base_frame_Z_offset" value="${caster_assy_height}"/>   <!--da go naprawia param za macroto i ne triabva li da e +  eddie_plate_half_height  -->
-  <xacro:property name="base_height" value="${0.375*SCALE_in_m}" />
-  <xacro:property name="base_radius" value="${17.75*SCALE_in_m/2}" />
+  <!--Baseframe to top of third deck height = 42.775 cm  ??? measure to confirm ???-->
 
+  <!-- ROUND PLATE DIMENSIONS  --> 
+  <xacro:property name="round_plate_height" value="${0.375*SCALE_in_to_m}" />
+  <xacro:property name="round_plate_half_height" value="${0.375*SCALE_in_to_m/2}" />
+  <xacro:property name="round_plate_diameter" value="${17.75*SCALE_in_to_m}" />
+  <xacro:property name="round_plate_radius" value="${17.75*SCALE_in_to_m/2}" />
+
+
+  <!-- BASE PLATE   -->
+  <xacro:property name="base_plate_botom_from_base_frame_Z_offset" value="${caster_assy_height}"/>   <!--da go naprawia param za macroto i ne triabva li da e +  round_plate_half_height  -->
   <!-- in kg weight with the battery holder plate bellow -->
   <xacro:property name="base_mass" value="1.75" /> <!-- towa e tegloeoto samo na plochite, da dobavia egloto na akumulatorite dwigateliite i kolelata-->
 
-   <!-- distance between the robot origin and the bottom of the base plate along the z axis (robot up) -->
-  <!--<xacro:property name="BASE_PLATE_FROM_BASE_FRAME_Z_OFFSET" value="${caster_assy_height+eddie_plate_half_height}" />  meters -->
 
- <!-- second_deck - Base Plate/Deck Cylinder base   -->
+  <!-- SECOND DECK   -->
   <xacro:property name="top_first_botom_second_deck_distance" value="${0.145}" />
-  <xacro:property name="second_deck_from_base_link_Z_offset" value="${top_first_botom_second_deck_distance + eddie_plate_half_height}"/>
-  <xacro:property name="second_deck_height" value="${0.375*SCALE_in_m}" />
-  <xacro:property name="second_deck_radius" value="${17.75*SCALE_in_m/2}" />
+  <xacro:property name="second_deck_from_base_link_Z_offset" value="${top_first_botom_second_deck_distance + round_plate_half_height}"/>
+  <xacro:property name="second_deck_height" value="${0.375*SCALE_in_to_m}" />
+  <xacro:property name="second_deck_radius" value="${17.75*SCALE_in_to_m/2}" />
   <xacro:property name="second_deck_mass" value="1.5" />   <!-- in kg -->
 
-  <!-- third_deck - Base Plate/Deck Cylinder base   -->
+
+  <!-- THIRD DECK -->
   <xacro:property name="top_second_botom_third_deck_distance" value="${0.156}" />
-  <xacro:property name="third_deck_from_second_deck_Z_offset" value="${top_second_botom_third_deck_distance + eddie_plate_half_height}"/>
-  <xacro:property name="third_deck_height" value="${0.375*SCALE_in_m}" />
-  <xacro:property name="third_deck_radius" value="${17.75*SCALE_in_m/2}" />
+  <xacro:property name="third_deck_from_second_deck_Z_offset" value="${top_second_botom_third_deck_distance + round_plate_half_height}"/>
+  <xacro:property name="third_deck_height" value="${0.375*SCALE_in_to_m}" />
+  <xacro:property name="third_deck_radius" value="${17.75*SCALE_in_to_m/2}" />
   <xacro:property name="third_deck_mass" value="1.5" />   <!-- in kg -->
 
-<!--Base height to top of third deck = 42.775 cm ???-->
 
-  <!-- Wheels -->
-  <xacro:property name="wheel_diameter" value="${6*SCALE_in_m}" />
+
+
+  <!-- WHEELS -->
+  <xacro:property name="wheel_diameter" value="${6*SCALE_in_to_m}" />
   <xacro:property name="wheel_radius" value="${wheel_diameter/2}" />
-  <xacro:property name="wheel_width" value="${1.25*SCALE_in_m/2}" />
+  <xacro:property name="wheel_width" value="${1.25*SCALE_in_to_m/2}" />
   <xacro:property name="wheel_mass" value="0.6" /> <!-- ???? in kg-->
+
   <xacro:property name="base_x_origin_to_wheel_origin" value="0.0" />
   <xacro:property name="base_y_origin_to_wheel_origin" value="0.2" /> <!--VAJNO!!!!!! da se izmeri pak - ot tova zawisi odometriata!!!!!!!!!!! -->
     <!--<xacro:property name="base_y_origin_to_wheel_origin" value="0.19" />-->
-  <xacro:property name="base_z_origin_to_wheel_origin" value="${-(base_from_base_frame_Z_offset - wheel_radius)}" />
+  <xacro:property name="base_z_origin_to_wheel_origin" value="${-(base_plate_botom_from_base_frame_Z_offset - wheel_radius)}" />
 
+  <!-- CASTER WHEELS -->
   <!-- caster wheel offsets from base origin -->
   <xacro:property name="caster_X_offset_from_base_link" value="0.17"/>
-  <!-- caster wheel radius and height -->
-  <!-- caster wheel mass -->
+
+  <!-- caster wheel radius, height and mass -->
   <xacro:property name="caster_assy_height" value="${0.09825}" />
-  <xacro:property name="caster_wheel_radius" value="${3*SCALE_in_m/2}" />
+  <xacro:property name="caster_wheel_radius" value="${3*SCALE_in_to_m/2}" />
 
   <xacro:property name="caster_box_mass" value="0.15" /> <!-- in kg-->
   <xacro:property name="caster_box_height" value="${caster_assy_height- caster_wheel_radius*2}" />
@@ -97,52 +103,54 @@
   <xacro:property name="caster_sphere_diameter" value="${caster_wheel_radius*2}" />
   <xacro:property name="caster_sphere_radius" value="${caster_sphere_diameter/2}" />
 
+  <!-- STANDOFFS -->
+  <!-- deck standoff offsets -->
+  <xacro:property name="standoff_X_offset" value="${0.18 / 2}" />
+  <xacro:property name="standoff_Y_offset" value="${0.33 / 2}" />
+
+
   <!-- SENSORS -->
 
- <!-- Kinect -->
- <!-- kinect_mount_point - joint data for maunting kinect relative to base_link  -->
- <!--Kinect mount height 50 cm fro ground ?????-->
-    <xacro:property name="kinect_standoff_lenght" value="${0.42775}" />
-
-    <xacro:property name="kinect_standoff_X_offset" value="${-0.15}" />
-    <xacro:property name="kinect_standoff_Y_offset" value="${0.06}" />
-    <xacro:property name="kinect_standoff_Z_offset" value="${eddie_plate_height}" />
-
-  <!--<xacro:property name="kinect_mount_point_from_kinect_standoff_0__Z_offset" value="${(kinect_standoff_lenght - eddie_plate_height)/2+eddie_plate_height}" />
-  <xacro:property name="kinect_mount_point_from_kinect_standoff_0__X_offset" value="${0.15}"/>-->
+  <!-- KINECT -->
+  <xacro:property name="kinect_standoff_lenght" value="${0.42775}" /> <!-- ???????measure the real one???????????????-->
+  <xacro:property name="kinect_standoff_X_offset" value="${round_plate_radius-0.078}" />
+  <xacro:property name="kinect_standoff_Y_offset" value="${0.17 / 2}" />
+  <xacro:property name="kinect_standoff_Z_offset" value="${round_plate_height}" />
 
   <xacro:property name="kinect_mount_point_from_support_plate_X_offset" value="${0.0}"/>
   <xacro:property name="kinect_mount_point_from_support_plate_Y_offset" value="${0.0}" />
   <xacro:property name="kinect_mount_point_from_support_plate_Z_offset" value="${kinect_support_half_height}" />
 
-
   <xacro:property name="kinect_support_from_kinect_standoff_0__X_offset" value="${0.0}"/>
-  <xacro:property name="kinect_support_from_kinect_standoff_0__Y_offset" value="${-0.06}"/>
+  <xacro:property name="kinect_support_from_kinect_standoff_0__Y_offset" value="${-kinect_standoff_Y_offset}"/>
   <xacro:property name="kinect_support_from_kinect_standoff_0__Z_offset" value="${(kinect_standoff_lenght - kinect_support_height)/2+kinect_support_half_height}" />
-  <xacro:property name="kinect_support_height" value="${eddie_plate_height}" />
+
+  <xacro:property name="kinect_support_height" value="${round_plate_height}" />
   <xacro:property name="kinect_support_half_height" value="${kinect_support_height/2}" />
-  <xacro:property name="kinect_support_width" value="${0.15}" />
+  <xacro:property name="kinect_support_width" value="${kinect_standoff_Y_offset *2 + 0.05}" />
   <xacro:property name="kinect_support_lenght" value="${0.06}" />
   <xacro:property name="kinect_support_mass" value="${.05}" />    <!--in kg-->
 
 
-    <!-- Define a Kinect dimensions using properties -->
-   <xacro:property name="kinect_body_x" value="0.07271" />
-   <xacro:property name="kinect_body_y" value="0.27794" />
-   <xacro:property name="kinect_body_z" value="0.033" />
-
+    <!-- Define Kinect dimensions using properties -->
    <xacro:property name="kinect_base_x" value="0.072" />
    <xacro:property name="kinect_base_y" value="0.085" />
    <xacro:property name="kinect_base_z" value="0.021" />
+
+   <xacro:property name="kinect_body_x" value="0.07271" />
+   <xacro:property name="kinect_body_y" value="0.27794" />
+   <xacro:property name="kinect_body_z" value="0.033" />
 
    <xacro:property name="kinect_base_post_height" value="0.016" />
    <xacro:property name="kinect_base_post_radius" value="0.005" />
 
 
-  <!-- Hokuyo Laser scanner -->
-  <xacro:property name="hokuyo_size" value="${0.05}" />
+  <!-- RPLIDAR A2  -->
+  <xacro:property name="rplidar_diameter" value="${0.0757}" />
+  <xacro:property name="rplidar_height_of_laser_beam_plane" value="${0.0308}" />
+  <xacro:property name="rplidar_height" value="${0.0408}" />
 
-    <!-- camera -->
+    <!-- CAMERA -->
   <xacro:property name="cameraSize" value="${0.05}"/>
   <xacro:property name="cameraMass" value="${0.1}"/>
 
@@ -174,7 +182,7 @@
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
           <cylinder length="${lenght}" radius="0.011113"/>
-          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         </geometry>
         <material name="silver"/>
       </visual>
@@ -208,7 +216,7 @@
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
           <cylinder length="${lenght}" radius="0.011113"/>
-          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         </geometry>
         <material name="silver"/>
       </visual>
@@ -242,7 +250,7 @@
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
           <cylinder length="${lenght}" radius="0.011113"/>
-          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         </geometry>
         <material name="silver"/>
       </visual>
@@ -276,7 +284,7 @@
       <visual>
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
-          <mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>
+          <mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>
         </geometry>
       </visual>
 
@@ -311,7 +319,7 @@
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
         <box size="${lenght} ${width} ${height}"/>
-          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         </geometry>
         <material name="black"/>
       </visual>
@@ -348,7 +356,7 @@
         <origin xyz=" 0 0 0 " rpy="0 0 0" />
         <geometry>
         <box size="${lenght} ${width} ${height}"/>
-          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-02421-8000-RA_Eddiebot_F-F_Standoff.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         </geometry>
         <material name="red"/>
       </visual>
@@ -435,7 +443,7 @@
       </link>
 
       <joint name="${name}_depth_joint" type="fixed">
-         <origin xyz="0 0.0125 0" rpy="0 0 0" />
+          <origin xyz="0 0.0125 0" rpy="0 0 0" />
           <parent link="${name}_link" />
           <child link="${name}_depth_frame" />
       </joint>
@@ -451,9 +459,10 @@
       </link>
 
       <joint name="${name}_depth_optical_joint" type="fixed">
-         <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}" />
-         <parent link="${name}_depth_frame" />
-         <child link="${name}_depth_optical_frame" />
+          <!--<origin xyz="0 0 0" rpy="${-M_PI_2} 0 ${-M_PI_2}" />-->
+          <origin xyz="0 0 0" rpy="${0} 0 ${0}" />
+          <parent link="${name}_depth_frame" />
+          <child link="${name}_depth_optical_frame" />
       </joint>
 
       <link name="${name}_depth_optical_frame">
@@ -483,7 +492,8 @@
       </link>
 
       <joint name="${name}_rgb_optical_joint" type="fixed">
-         <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}" />
+         <!--<origin xyz="0 0 0" rpy="${-M_PI_2} 0 ${-M_PI_2}" />-->
+         <origin xyz="0 0 0" rpy="${0} 0 ${0}" />         
          <parent link="${name}_rgb_frame" />
          <child link="${name}_rgb_optical_frame" />
       </joint>
@@ -545,7 +555,7 @@
 
   <!-- JOINT BASE_LINK TO BASE_FRAME-->
   <joint name="base_footprint_base_link_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 ${base_from_base_frame_Z_offset}"/>
+    <origin rpy="0 0 0" xyz="0 0 ${base_plate_botom_from_base_frame_Z_offset}"/>
     <parent link="base_footprint"/>
     <child link="base_link"/>
   </joint>
@@ -557,7 +567,7 @@
    <pose>0 0 0.1 0 0 0</pose>
 
    <inertial>
-      <origin xyz="0.0 0 ${eddie_plate_half_height}" rpy=" 0 0 0"/>
+      <origin xyz="0.0 0 ${round_plate_half_height}" rpy=" 0 0 0"/>
       <mass value="${base_mass}"/>
       <inertia
           ixx="0.1" ixy="0" ixz="0"
@@ -567,17 +577,17 @@
     </inertial>
 
     <collision name="collision">
-    <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+    <origin xyz="0 0 ${round_plate_half_height}" rpy="0 0 0" />
       <geometry>
-       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+       <cylinder radius="${round_plate_radius}" length="${round_plate_height}"/>
       </geometry>
     </collision>
 
     <visual name="base_visual">
-      <!--<origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />      -->
+      <!--<origin xyz="0 0 ${round_plate_half_height}" rpy="0 0 0" />      -->
       <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
       <geometry>
-        <!--<cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>-->
+        <!--<cylinder radius="${round_plate_radius}" length="${round_plate_height}"/>-->
         <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
       </geometry>
       <!--<material name="orange"/>-->
@@ -805,15 +815,15 @@
 
 
 <!--###########  STANDOFFS ON BASE PLATE  #############################-->
-  <!--<robco_standoff_first_second_deck parent="base_link" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_first_second_deck parent="base_link" number="1" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_first_second_deck parent="base_link" number="2" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_first_second_deck parent="base_link" number="3" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>-->
+  <!--<robco_standoff_first_second_deck parent="base_link" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="1" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="2" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_first_second_deck parent="base_link" number="3" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${round_plate_height}"/>-->
 
-  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="1" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="2" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="3" lenght= "${top_first_botom_second_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="${standoff_X_offset}" y_loc="${standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="1" lenght= "${top_first_botom_second_deck_distance}" x_loc="${standoff_X_offset}" y_loc="${-standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="2" lenght= "${top_first_botom_second_deck_distance}" x_loc="${-standoff_X_offset}" y_loc="${standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="base_link" subname="first_second_deck" number="3" lenght= "${top_first_botom_second_deck_distance}" x_loc="${-standoff_X_offset}" y_loc="${-standoff_Y_offset}" z_loc="${round_plate_height}"/>
 
 
 <!--########################################-->
@@ -823,7 +833,7 @@
 
  <!-- JOINT second_deck TO BASE_LINK -->
   <joint name="base_link_second_deck_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 ${second_deck_from_base_link_Z_offset+eddie_plate_half_height}"/>
+    <origin rpy="0 0 0" xyz="0 0 ${second_deck_from_base_link_Z_offset+round_plate_half_height}"/>
     <parent link="base_link"/>
     <child link="second_deck"/>
   </joint>
@@ -843,17 +853,17 @@
     </inertial>
 
     <collision name="collision">
-        <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+        <origin xyz="0 0 ${round_plate_half_height}" rpy="0 0 0" />
       <geometry>
-       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+       <cylinder radius="${round_plate_radius}" length="${round_plate_height}"/>
       </geometry>
     </collision>
 
     <visual name="second_deck_visual">
-        <!--<origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />      -->
+        <!--<origin xyz="0 0 ${round_plate_half_height}" rpy="0 0 0" />      -->
       <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
       <geometry>
-        <!--<cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>-->
+        <!--<cylinder radius="${round_plate_radius}" length="${round_plate_height}"/>-->
         <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="orange"/>
@@ -864,15 +874,15 @@
 <!--########################################-->
 
 <!--###########  STANDOFFS ON SECOND PLATE  #############################-->
-  <!--<robco_standoff parent="second_deck" subname="second_third_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_second_third_deck parent="second_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_second_third_deck parent="second_deck" number="2" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_second_third_deck parent="second_deck" number="3" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>-->
+  <!--<robco_standoff parent="second_deck" subname="second_third_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="2" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${round_plate_height}"/>
+  <robco_standoff_second_third_deck parent="second_deck" number="3" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${round_plate_height}"/>-->
 
-  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="0" lenght= "${top_first_botom_second_deck_distance}" x_loc="0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="2" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="0.165" z_loc="${eddie_plate_height}"/>
-  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="3" lenght= "${top_second_botom_third_deck_distance}" x_loc="-0.09" y_loc="-0.165" z_loc="${eddie_plate_height}"/>
+  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="0" lenght= "${top_second_botom_third_deck_distance}" x_loc="${standoff_X_offset}" y_loc="${standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="1" lenght= "${top_second_botom_third_deck_distance}" x_loc="${standoff_X_offset}" y_loc="${-standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="2" lenght= "${top_second_botom_third_deck_distance}" x_loc="${-standoff_X_offset}" y_loc="${standoff_Y_offset}" z_loc="${round_plate_height}"/>
+  <xacro:robco_standoff parent="second_deck" subname="second_third_deck" number="3" lenght= "${top_second_botom_third_deck_distance}" x_loc="${-standoff_X_offset}" y_loc="${-standoff_Y_offset}" z_loc="${round_plate_height}"/>
 
 
 <!--########################################-->
@@ -881,7 +891,7 @@
 
   <!-- JOINT THIRD_DECK TO SECOND_DECK -->
   <joint name="third_deck_second_deck_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 ${third_deck_from_second_deck_Z_offset+eddie_plate_half_height}"/>
+    <origin rpy="0 0 0" xyz="0 0 ${third_deck_from_second_deck_Z_offset+round_plate_half_height}"/>
     <parent link="second_deck"/>
     <child link="third_deck"/>
   </joint>
@@ -902,9 +912,9 @@
     </inertial>
 
     <collision name="collision">
-      <origin xyz="0 0 ${eddie_plate_half_height}" rpy="0 0 0" />
+      <origin xyz="0 0 ${round_plate_half_height}" rpy="0 0 0" />
       <geometry>
-       <cylinder radius="${eddie_plate_radius}" length="${eddie_plate_height}"/>
+       <cylinder radius="${round_plate_radius}" length="${round_plate_height}"/>
       </geometry>
     </collision>
 
@@ -913,7 +923,6 @@
       <origin xyz="0 0 0" rpy="${ROTATE_90_DEGREES} 0 ${ROTATE_90_DEGREES}"/>
 
       <geometry>
-        <!--<cylinder radius="${base_radius}" length="${base_height}"/>-->
         <mesh filename="package://robot_description/meshes/Eddiebot/ArloBottomplateTST.dae" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="orange"/>
@@ -926,16 +935,16 @@
 
 <!--###########  KINECT STANDOFFS ON THIRD PLATE  #############################-->
 
-  <xacro:robco_standoff parent="third_deck" subname="third_deck_kinect" number="0" lenght= "${kinect_standoff_lenght-eddie_plate_height}" x_loc="${kinect_standoff_X_offset}" y_loc="${kinect_standoff_Y_offset}" z_loc="${kinect_standoff_Z_offset}"/>
-  <xacro:robco_standoff parent="third_deck" subname="third_deck_kinect" number="1" lenght= "${kinect_standoff_lenght-eddie_plate_height}" x_loc="${kinect_standoff_X_offset}" y_loc="${-kinect_standoff_Y_offset}" z_loc="${kinect_standoff_Z_offset}"/>
+  <xacro:robco_standoff parent="third_deck" subname="third_deck_kinect" number="0" lenght= "${kinect_standoff_lenght-round_plate_height}" x_loc="${-kinect_standoff_X_offset}" y_loc="${kinect_standoff_Y_offset}" z_loc="${kinect_standoff_Z_offset}"/>
+  <xacro:robco_standoff parent="third_deck" subname="third_deck_kinect" number="1" lenght= "${kinect_standoff_lenght-round_plate_height}" x_loc="${-kinect_standoff_X_offset}" y_loc="${-kinect_standoff_Y_offset}" z_loc="${kinect_standoff_Z_offset}"/>
 
 
-  <!--<robco_standoff_kinect parent="third_deck" number="0"  x_loc="${kinect_mount_point_from_kinect_standoff_0__X_offset}" y_loc="0.06" z_loc="${eddie_plate_height}"/>
-  <robco_standoff_kinect parent="third_deck" number="1"  x_loc="${kinect_mount_point_from_kinect_standoff_0__X_offset}" y_loc="-0.06" z_loc="${eddie_plate_height}"/>-->
+  <!--<robco_standoff_kinect parent="third_deck" number="0"  x_loc="${kinect_mount_point_from_kinect_standoff_0__X_offset}" y_loc="0.06" z_loc="${round_plate_height}"/>
+  <robco_standoff_kinect parent="third_deck" number="1"  x_loc="${kinect_mount_point_from_kinect_standoff_0__X_offset}" y_loc="-0.06" z_loc="${round_plate_height}"/>-->
 
 <!--###########  KINECT SUPPORT PLATE ON THE STANDOFFS  #############################-->
 
-  <!--<robco_kinect_support_plate parent="standoff_third_deck_kinect_0_link" lenght= "${0.06}" width="${0.15}" height="${eddie_plate_height}" x_loc="${0.0}" y_loc="-0.06" z_loc="${(kinect_mount_point_from_kinect_standoff_0__Z_offset-eddie_plate_height)/2+eddie_plate_half_height}"/>-->
+  <!--<robco_kinect_support_plate parent="standoff_third_deck_kinect_0_link" lenght= "${0.06}" width="${0.15}" height="${round_plate_height}" x_loc="${0.0}" y_loc="-0.06" z_loc="${(kinect_mount_point_from_kinect_standoff_0__Z_offset-round_plate_height)/2+round_plate_half_height}"/>-->
   <xacro:robco_kinect_support_plate parent="standoff_third_deck_kinect_0_link" lenght= "${kinect_support_lenght}" width="${kinect_support_width}" height="${kinect_support_height}" x_loc="${kinect_support_from_kinect_standoff_0__X_offset}" y_loc="${kinect_support_from_kinect_standoff_0__Y_offset}" z_loc="${kinect_support_from_kinect_standoff_0__Z_offset}"/>
 
 
@@ -947,7 +956,7 @@
 <!--The Joint to KINECT SUPPORT PLATE TO KINECT is already in the macro-->
  <!-- JOINT KINECT SUPPORT PLATE TO KINECT -->
   <!--<joint name="kinect_suppoet_plate_to_kinect_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="0 0 ${third_deck_from_second_deck_Z_offset+eddie_plate_half_height}"/>
+    <origin rpy="0 0 0" xyz="0 0 ${third_deck_from_second_deck_Z_offset+round_plate_half_height}"/>
     <parent link="kinect_support_plate_link"/>
     <child link="kinect???????????????"/>
   </joint>-->
@@ -969,11 +978,11 @@
 
  <xacro:mover4_arm/>
 
-  <xacro:robco_mountpoint_visualizer_box parent="third_deck" device_name="mover4_arm" lenght= "${eddie_plate_height}" width="${eddie_plate_height}" height="${eddie_plate_height}" x_loc="${0}" y_loc="${0}" z_loc="${eddie_plate_half_height+0.218}"/>
+  <xacro:robco_mountpoint_visualizer_box parent="third_deck" device_name="mover4_arm" lenght= "${round_plate_height}" width="${round_plate_height}" height="${round_plate_height}" x_loc="${0}" y_loc="${0}" z_loc="${round_plate_half_height+0.218}"/>
 
   <!--JOINT THIRD_DECK TO MOVER4_ARM -->
   <joint name="third_deck_mover4_arm_joint" type="fixed">
-    <origin rpy="0 0 0" xyz="${eddie_plate_radius-0.216} 0 ${eddie_plate_half_height}"/>
+    <origin rpy="0 0 0" xyz="${round_plate_radius-0.216} 0 ${round_plate_half_height}"/>
     <parent link="third_deck"/>
     <child link="arm_base_link"/>
   </joint>
@@ -1006,7 +1015,7 @@
       <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001" />
     </inertial>
   </link>
-  <xacro:robco_mountpoint_visualizer_box parent="base_link" device_name="imu" lenght= "${0.05}" width="${0.05}" height="${0.05}" x_loc="${0.0}" y_loc="${0.0}" z_loc="${0.04}"/>
+  <xacro:robco_mountpoint_visualizer_box parent="base_link" device_name="imu" lenght= "${0.01}" width="${0.01}" height="${0.01}" x_loc="${0.0}" y_loc="${0.0}" z_loc="${0.04}"/>
 
 <!--########################################-->
 
@@ -1015,25 +1024,29 @@
   <joint name="rplidar_joint" type="fixed">
     <!--<axis xyz="0 1 0" />-->
     <!--<origin xyz="0.02 0 0.086" rpy="0 0 0"/>-->
-    <origin xyz="0.50 0 ${eddie_plate_height+0.05}" rpy="0 0 0" />
+    <origin xyz="${round_plate_radius-rplidar_diameter/2-0.01} 0 ${round_plate_height+rplidar_height_of_laser_beam_plane}" rpy="0 0 0" />
     <parent link="second_deck"/>
-    <child link="rplidar_laser_beam"/>
+    <child link="rplidar_laser_beam_plane"/>
   </joint>
 
   <!-- rplidar Laser -->
-  <link name="rplidar_laser_beam">
+  <link name="rplidar_laser_beam_plane">
       <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <box size="0.001 0.001 0.001"/>
+        <cylinder length="0.01" radius="0.2"/>
       </geometry>
+      <material name="green" />
     </collision>
 
-   <visual>
-      <origin xyz="0 0 -0.03" rpy="1.5707 0 4.71"/>
+    <visual>
+    <!--Looks like the rplidar mesh is not with the correct diameter, modifying the Y offset in order to show the visual "almost" correctly -->
+      <origin xyz="0 ${-rplidar_diameter/2 + 0.007} ${-rplidar_height_of_laser_beam_plane}" rpy="0 0 0" />
       <geometry>
-        <mesh filename="package://robot_description/meshes/rplidar-a2m4.stl" scale="0.001 0.001 0.001" />
+        <!--<mesh filename="package://robot_description/meshes/rplidar-a2m4.stl" scale="0.001 0.001 0.001" />-->
+        <mesh filename="package://robot_description/meshes/rplidar_a2/RPlidar_A2.stl.obj" scale="0.001 0.001 0.001"/>
       </geometry>
+      <material name="red" />      
     </visual>
 
     <inertial>
@@ -1043,9 +1056,8 @@
     </inertial>
   </link>
 
-  <joint name="laser_joint" type="fixed">
-    <!--<origin xyz="-0.065 0 0.075" rpy="0 0 0" />-->
-    <origin xyz="0.20 0 ${eddie_plate_height}" rpy="0 0 0" />
+  <!--<joint name="laser_joint" type="fixed">
+    <origin xyz="0.20 0 ${round_plate_height}" rpy="0 0 0" />
     <parent link="second_deck" />
     <child link="laser_visual" />
   </joint>
@@ -1054,7 +1066,6 @@
     <visual>
       <geometry>
      <mesh filename="package://robot_description/meshes/rplidar_a2/RPlidar_A2.stl.obj" scale="0.001 0.001 0.001"/>
-        <!--<box size="0.02 0.035 0.002" />-->
       </geometry>
       <material name="green" />
     </visual>
@@ -1065,7 +1076,7 @@
         iyy="0.0001" iyz="0.0"
         izz="0.0001" />
     </inertial>
-  </link>
+  </link>-->
 
   <xacro:robco_mountpoint_visualizer_box parent="base_link" device_name="laser" lenght= "${0.05}" width="${0.05}" height="${0.05}" x_loc="${-0.065}" y_loc="${0.0}" z_loc="${0.075}"/>
 
@@ -1084,7 +1095,7 @@
     <visual>
       <geometry>
         <!--<box size="0.02 0.035 0.002" />-->
-          <!--<mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_m} ${SCALE_mm_m} ${SCALE_mm_m}"/>-->
+          <!--<mesh filename="package://robot_description/meshes/68-04556-RA_Kinect_Standoff_Assy.dae" scale="${SCALE_mm_to_m} ${SCALE_mm_to_m} ${SCALE_mm_to_m}"/>-->
         	<!--<mesh filename="package://robot_description/meshes/GeometryCPRMover4/Joint0.obj" scale="0.001 0.001 0.001"/>-->
 
      <!--<mesh filename="package://robot_description/meshes/rplidar_a2/RPlidar_A2.stl.obj" scale="0.001 0.001 0.001"/>-->
