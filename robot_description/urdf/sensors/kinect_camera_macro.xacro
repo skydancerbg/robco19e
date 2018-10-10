@@ -1,12 +1,16 @@
 <?xml version="1.0"?>
 <robot name="robco_hardware" xmlns:xacro="http://www.ros.org/wiki/xacro">
  
+<!-- macro for kinect camera    -->
+<!-- Created by Stefan -->
+<!-- Service Robotics Group - Bulgaria -  Version 1.0 from Oct. 10th, 2018. -->
+
   <!--<property name="M_PI" value="3.14159"/>-->
 
   <include filename="$(find robco_description)/urdf/new_gazebo.urdf.xacro"/>
   <include filename="$(find robco_description)/urdf/new_calibration.xacro" />
 
-<xacro:macro name="robco_kinect">
+<xacro:macro name="kinect_camera">
   <joint name="base_camera_joint" type="fixed">
     <origin xyz="${robco_calib_cam_x} ${robco_calib_cam_y} ${robco_calib_cam_z}" 
             rpy="${robco_calib_cam_rr} ${robco_calib_cam_rp} ${robco_calib_cam_ry}" />

@@ -20,12 +20,8 @@ def callback(data):
         rospy.sleep(22)
         start_node_direct('release_bottle_on_table_execute.py')
 
-    # package = 'mover4_moveit_config'
-    # executable = 'mover4_named_position_replay.py'
-    # node_name = 'mover4_move_group_python_interface'
 
-
-    # FROM:
+############## FROM:
 # https://answers.ros.org/question/42849/how-to-launch-a-launch-file-from-python-code/
 # Start:---------------------------------------------------------------------------------------------
     # package = 'mover4_moveit_config'
