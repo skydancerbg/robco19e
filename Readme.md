@@ -1,1 +1,1 @@
-Important: The robot comp and all PC's shoul be set to ntp server updates in order to work in (almost) the same time!
+DEPRECIATED!!!
